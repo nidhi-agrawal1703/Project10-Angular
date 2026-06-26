@@ -1,0 +1,47 @@
+<app-navbar></app-navbar>
+<div align="center">
+    <h1 align="center" style="margin-bottom: 5px; color: navy;">Course List</h1>
+
+    <div style="height: 20px; margin-bottom: 10px; text-align: center;">
+        <h3 style="margin: 0; color: green;" *ngIf="!form.error && form.message">{{form.message}}</h3>
+        <h3 style="margin: 0; color: red;" *ngIf="form.error && form.message">{{form.message}}</h3>
+    </div>
+
+    <div *ngIf="form.list.length>0">
+
+        <table border="1" style="width: 100%; border: groove;">
+            <tr>
+            <th><input type="checkbox" [(ngModel)]="isMasterSel" (change)="checkUncheckAll($event)"></th>
+            <th>S.No.</th>
+            <th>Name</th>
+            <th>Duration</th>
+            <th>Description</th>
+            <th>Edit</th>
+            </tr>
+
+            <tr align="center" *ngFor="let m of form.list; let i=index">
+                <td><input type="checkbox" #checkboxes (change)="checkListUpdate()" [id]="m.id" [value]="isMasterSel"></td>
+                <td>{{(form.pageNo*5)+i+1}}</td>
+                <td>{{m.name}}</td>
+                <td>{{m.duration}}</td>
+                <td>{{m.description}}</td>
+                <td><a (click)="forward('/course/'+m.id)">Edit</a></td>
+            </tr>
+        </table>
+
+        <table style="width: 100%">
+            <tr>
+                <td style="width: 25%"><button (click)="previous()" [disabled]="form.pageNo ==0">Previous</button></td>
+                <td align="center" style="width: 25%"><button (click)="forward('/course')">New</button></td>
+                <td align="center" style="width: 25%"><button (click)="deleteMany()">Delete</button></td>
+                <td style="width: 25%" align="right"><button (click)="next()" [disabled]="form.nextListSize == 0">Next</button></td>
+            </tr>
+        </table>
+
+    </div>
+    <br>
+
+    <div *ngIf="form.list.length == 0" ><button (click)="reset()">Back</button></div> 
+</div>
+<td></td>
+<app-footer></app-footer>
